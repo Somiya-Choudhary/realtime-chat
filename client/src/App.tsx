@@ -1,11 +1,15 @@
-import './App.css'
+import {Routes,Route} from "react-router-dom";
+import './App.css';
+import Home from "./components/Home";
+import Rooms from "./components/Rooms";
 
 function App() {
 
   return (
-    <>
-      <h1>Realtime Chat</h1>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />}></Route>
+      <Route path="/rooms" element={<Rooms />}></Route>
+    </Routes>
   )
 }
 
