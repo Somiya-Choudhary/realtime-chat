@@ -10,7 +10,22 @@ function Rooms() {
     },[]);
 
     const joinChannel = () => {
-        navigate('/rooms/chat');
+        const ws = new WebSocket('ws://localhost:8080');
+
+        ws.onerror = (e) => console.log("ws error:", e);
+
+        ws.onopen = () => {
+        console.log("ws opened");
+        ws.send("Hello from react app!!");
+        };
+
+        ws.onmessage = (event) => {
+        console.log("from server:", event.data);
+        };
+
+        ws.onclose = () => console.log("ws closed");
+
+        //navigate('/rooms/chat');
     }
 
     return(
