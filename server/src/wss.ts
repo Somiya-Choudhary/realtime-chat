@@ -10,6 +10,7 @@ wss.on('error',(err) => console.log(err));
 
 wss.on("connection", (ws, req) => {
   console.log("ws client connected from", req.socket.remoteAddress);
+  console.log("Total connected:", wss.clients.size);
 
   ws.send("Connection established");
 
