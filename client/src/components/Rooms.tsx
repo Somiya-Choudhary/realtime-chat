@@ -1,12 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
+import { getRooms } from "../api/roomApi";
+import type {Room} from "../types/room";
 
 function Rooms() {
-    const [rooms, setRooms] = useState<string[]>(['General','Sports','Tech']);
+    const [rooms, setRooms] = useState<Room[]>([]);
+    const [error, setError] = useState(false);
     const navigate = useNavigate();
+    const user = useAuthStore((state) => state.user);
 
     useEffect(() => {
-        //Fetch rooms from backend. Currently adding dummy data
+        const fetchRooms = async () => {
+        try {
+            const rooms = await getRooms();
+            setRooms(rooms.rooms);
+        } catch {
+            setError(true);
+        }
+    };
+
+    fetchRooms();
+
     },[]);
 
     const joinChannel = () => {
@@ -25,16 +40,20 @@ function Rooms() {
 
         ws.onclose = () => console.log("ws closed");
 
-        //navigate('/rooms/chat');
+        navigate('/rooms/chat');
     }
 
     return(
         <>
-        <h2>Rooms</h2>
-        {rooms.map((room:string) => <div>
-            <p key={room}>{room}</p><button onClick={joinChannel}>Join</button>
-            </div>
-        )}
+            <h1>Welcome {user?.name}</h1>
+            <h2>Rooms</h2>
+            {rooms.map((room:Room) => <div>
+                <p key={room.id}>{room.name}</p><button onClick={joinChannel}>Join</button>
+                </div>
+            )}
+            {
+                error === true ? <p>Error retrieving rooms</p> : null
+            }
 
         </>
     )
