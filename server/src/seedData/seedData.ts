@@ -3,13 +3,13 @@ import { Room } from '../domains/Room';
 import { Message } from '../domains/Message';
 
 const Users = [
-    new User('1','Luffy', 'luffy@strawhatcrew.com'),
-    new User('2','Zoro', 'zoro@strawhatcrew.com'),
-    new User('3','Nami', 'nami@strawhatcrew.com'),
-    new User('4','Usopp', 'usopp@strawhatcrew.com'),
-    new User('5','Sanji', 'sanji@strawhatcrew.com'),
-    new User('6','Chopper', 'chopper@strawhatcrew.com'),
-    new User('7','Robin', 'robin@strawhatcrew.com'),
+    new User('1','Luffy', 'luffy@strawhatcrew.com','luffy'),
+    new User('2','Zoro', 'zoro@strawhatcrew.com','zoro'),
+    new User('3','Nami', 'nami@strawhatcrew.com', 'nami'),
+    new User('4','Usopp', 'usopp@strawhatcrew.com', 'usopp'),
+    new User('5','Sanji', 'sanji@strawhatcrew.com', 'sanji'),
+    new User('6','Chopper', 'chopper@strawhatcrew.com', 'chopper'),
+    new User('7','Robin', 'robin@strawhatcrew.com', 'robin'),
 ];
 
 const Rooms = [
