@@ -1,8 +1,13 @@
+import http from "http";
 import app from "./app";
-import "./wss";
+import { setUpWebSocketServer } from "./websocket/socketServer";
+
+const server = http.createServer(app);
+
+setUpWebSocketServer(server);
 
 const PORT = process.env.PORT ? Number(process.env.PORT) : 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`HTTP + WebSocket server running on port ${PORT}`);
 });
