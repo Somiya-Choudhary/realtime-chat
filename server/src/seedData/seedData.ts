@@ -2,7 +2,7 @@ import { User } from '../domains/User';
 import { Room } from '../domains/Room';
 import { Message } from '../domains/Message';
 
-const Users = [
+const Users: User[] = [
     new User('1','Luffy', 'luffy@strawhatcrew.com','luffy'),
     new User('2','Zoro', 'zoro@strawhatcrew.com','zoro'),
     new User('3','Nami', 'nami@strawhatcrew.com', 'nami'),
@@ -12,13 +12,13 @@ const Users = [
     new User('7','Robin', 'robin@strawhatcrew.com', 'robin'),
 ];
 
-const Rooms = [
+const Rooms: Room[] = [
     new Room('1', 'General'),
     new Room('2', 'Tech Talk'),
     new Room('3', 'Pirates'),
 ]
 
-const Messages = [
+const Messages: Message[] = [
   new Message("1", "3", "1", "Hello everyone!", new Date("2026-03-15T10:00:00Z")),
   new Message("2", "3", "2", "Hi Luffy!", new Date("2026-03-15T10:01:00Z")),
   new Message("3", "2", "3", "Anyone here interested in tech?", new Date("2026-03-15T10:02:00Z")),

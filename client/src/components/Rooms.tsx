@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../stores/authStore";
+import { useChatStore } from "../stores/chatStore";
 import { getRooms } from "../api/roomApi";
 import type {Room} from "../types/room";
+
+const wsUri = "ws://localhost:5000/";
 
 function Rooms() {
     const [rooms, setRooms] = useState<Room[]>([]);
     const [error, setError] = useState(false);
     const navigate = useNavigate();
     const user = useAuthStore((state) => state.user);
+    const addChat = useChatStore((state) => state.addChat);
 
     useEffect(() => {
         const fetchRooms = async () => {
@@ -24,21 +28,24 @@ function Rooms() {
 
     },[]);
 
-    const joinChannel = () => {
-        const ws = new WebSocket('ws://localhost:8080');
+    const joinChannel = (roomId: string) => {
+        const socket = new WebSocket(wsUri);
 
-        ws.onerror = (e) => console.log("ws error:", e);
+        socket.addEventListener('open', () => {
+            socket.send(JSON.stringify({
+                type: 'JOIN_ROOM',
+                roomId
+            }))
+        });
 
-        ws.onopen = () => {
-        console.log("ws opened");
-        ws.send("Hello from react app!!");
-        };
-
-        ws.onmessage = (event) => {
-        console.log("from server:", event.data);
-        };
-
-        ws.onclose = () => console.log("ws closed");
+        socket.addEventListener('message', (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                addChat(data.messages);
+            } catch {
+                console.log('Non-JSON message:', event.data);
+            }
+        });
 
         navigate('/rooms/chat');
     }
@@ -48,7 +55,7 @@ function Rooms() {
             <h1>Welcome {user?.name}</h1>
             <h2>Rooms</h2>
             {rooms.map((room:Room) => <div>
-                <p key={room.id}>{room.name}</p><button onClick={joinChannel}>Join</button>
+                <p key={room.id}>{room.name}</p><button onClick={() => joinChannel(room.id)}>Join</button>
                 </div>
             )}
             {

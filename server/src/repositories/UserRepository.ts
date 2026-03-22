@@ -20,4 +20,8 @@ export class UserRepository {
 
   }
 
+  getAllUsers() {
+    return seedData.users;
+  }
+
 }
